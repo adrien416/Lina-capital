@@ -1,0 +1,1763 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lina Capital · Financement Participatif Islamique</title>
+  <meta name="description" content="Lina Capital, plateforme PSFP de financement participatif conforme à l'éthique islamique. Agrément AMF en cours. Lancement S2 2026."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+
+  <!-- Netlify Forms detection (hidden) -->
+
+  <form name="depot-projet" netlify netlify-honeypot="bot-field" hidden>
+    <input type="text" name="prenom"/><input type="text" name="nom"/>
+    <input type="email" name="email"/><input type="tel" name="telephone"/>
+    <input type="text" name="nom_projet"/><input type="text" name="secteur"/>
+    <input type="text" name="montant"/><textarea name="description"></textarea>
+    <input type="file" name="document"/>
+  </form>
+  <form name="inscription-investisseur" netlify netlify-honeypot="bot-field" hidden>
+    <input type="text" name="prenom"/><input type="text" name="nom"/>
+    <input type="email" name="email"/><input type="tel" name="telephone"/>
+    <input type="text" name="profil"/><input type="text" name="montant_envisage"/>
+    <textarea name="message"></textarea>
+  </form>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:       #0B1628;
+      --navy-mid:   #152340;
+      --navy-light: #1E3355;
+      --teal:       #00C5A0;
+      --teal-dark:  #00A688;
+      --gold:       #C9A96E;
+      --gold-light: #E2C99A;
+      --white:      #FFFFFF;
+      --off-white:  #F7F8FA;
+      --text-muted: #8899AA;
+      --border:     rgba(255,255,255,0.08);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--off-white);
+      color: var(--navy);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ═══════════════════════════════════
+       BANNER
+    ═══════════════════════════════════ */
+    .banner {
+      background: var(--navy);
+      color: rgba(255,255,255,0.7);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      text-align: center;
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+    }
+    .banner span { color: var(--teal); }
+    .banner a {
+      color: var(--gold);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(201,169,110,0.4);
+    }
+
+    /* ═══════════════════════════════════
+       NAVBAR
+    ═══════════════════════════════════ */
+    .navbar {
+      background: var(--navy);
+      padding: 0 56px;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+    }
+    .logo img {
+      height: 30px;
+      display: block;
+      
+    }
+    .logo-divider {
+      width: 1px;
+      height: 22px;
+      background: rgba(255,255,255,0.2);
+    }
+    .logo-sub {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+    }
+
+    .nav-menu {
+      list-style: none;
+      display: flex;
+      gap: 32px;
+      align-items: center;
+    }
+    .nav-menu a {
+      font-size: 12px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.55);
+      text-decoration: none;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-menu a:hover { color: var(--white); }
+
+    .nav-right {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .btn-nav-ghost {
+      padding: 9px 18px;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 4px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-nav-ghost:hover {
+      border-color: rgba(255,255,255,0.5);
+      color: white;
+    }
+
+    .btn-nav-primary {
+      padding: 10px 22px;
+      background: var(--teal);
+      border: none;
+      border-radius: 4px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--navy);
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .btn-nav-primary:hover { background: var(--teal-dark); color: white; }
+
+    /* ═══════════════════════════════════
+       HERO
+    ═══════════════════════════════════ */
+    .hero {
+      background: var(--navy);
+      padding: 100px 56px 90px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0,197,160,0.12) 0%, transparent 70%),
+                  radial-gradient(ellipse 40% 40% at 80% 80%, rgba(201,169,110,0.06) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    /* Geometric grid overlay */
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+
+    .hero-inner { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(0,197,160,0.3);
+      background: rgba(0,197,160,0.06);
+      color: var(--teal);
+      padding: 6px 18px;
+      border-radius: 100px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 32px;
+    }
+    .hero-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--teal); }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(40px, 5.5vw, 68px);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.08;
+      letter-spacing: -1px;
+      margin-bottom: 24px;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--teal);
+    }
+
+    .hero-desc {
+      font-size: 17px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.55);
+      max-width: 500px;
+      margin: 0 auto 48px;
+      line-height: 1.7;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 64px;
+    }
+
+    .btn-primary {
+      padding: 16px 36px;
+      background: var(--teal);
+      border: 2px solid var(--teal);
+      border-radius: 4px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--navy);
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-primary:hover { background: var(--teal-dark); border-color: var(--teal-dark); color: white; }
+
+    .btn-outline {
+      padding: 16px 36px;
+      background: transparent;
+      border: 2px solid rgba(255,255,255,0.25);
+      border-radius: 4px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.8);
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-outline:hover { border-color: rgba(255,255,255,0.6); color: white; }
+
+    /* Stats row */
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      border-top: 1px solid var(--border);
+      padding-top: 48px;
+    }
+    .h-stat {
+      flex: 1;
+      max-width: 200px;
+      padding: 0 32px;
+      border-right: 1px solid var(--border);
+    }
+    .h-stat:last-child { border-right: none; }
+    .h-stat-n {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--teal);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .h-stat-l {
+      font-size: 11px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    /* ═══════════════════════════════════
+       ABOUT STRIP
+    ═══════════════════════════════════ */
+    .about-strip {
+      background: var(--white);
+      padding: 80px 56px;
+    }
+    .about-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 20px;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 3vw, 38px);
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+    .section-body {
+      font-size: 16px;
+      color: #4A5568;
+      line-height: 1.75;
+    }
+    .about-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 28px;
+    }
+    .about-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: var(--off-white);
+      border: 1px solid #E2E8F0;
+      padding: 8px 16px;
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--navy);
+    }
+    .about-badge span { color: var(--teal); }
+
+    .about-right {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .about-card {
+      background: var(--off-white);
+      border: 1px solid #E8EDF2;
+      border-radius: 12px;
+      padding: 28px 24px;
+    }
+    .about-card:first-child {
+      grid-column: 1 / -1;
+      background: var(--navy);
+      color: white;
+    }
+    .about-card-icon {
+      font-size: 24px;
+      margin-bottom: 14px;
+    }
+    .about-card h4 {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .about-card:first-child h4 { color: white; }
+    .about-card p {
+      font-size: 13px;
+      color: #6B7A8D;
+      line-height: 1.6;
+    }
+    .about-card:first-child p { color: rgba(255,255,255,0.55); }
+
+    /* ═══════════════════════════════════
+       POUR QUI
+    ═══════════════════════════════════ */
+    .pour-qui {
+      background: var(--off-white);
+      padding: 80px 56px;
+    }
+    .section-header {
+      text-align: center;
+      max-width: 580px;
+      margin: 0 auto 56px;
+    }
+    .pq-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .pq-card {
+      background: var(--white);
+      border: 1px solid #E8EDF2;
+      border-radius: 16px;
+      padding: 40px 32px;
+      position: relative;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .pq-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(11,22,40,0.08);
+    }
+    .pq-pct {
+      font-family: 'Playfair Display', serif;
+      font-size: 52px;
+      font-weight: 700;
+      color: var(--teal);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .pq-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+    .pq-card h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+    .pq-card p {
+      font-size: 14px;
+      color: #5A6A7E;
+      line-height: 1.65;
+      margin-bottom: 24px;
+    }
+    .pq-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 28px;
+    }
+    .pq-meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      padding: 8px 0;
+      border-bottom: 1px solid #F0F4F8;
+    }
+    .pq-meta-row:last-child { border-bottom: none; }
+    .pq-meta-key { color: #8899AA; font-weight: 500; }
+    .pq-meta-val { font-weight: 700; color: var(--navy); }
+    .pq-btn {
+      width: 100%;
+      padding: 13px;
+      background: var(--navy);
+      border: none;
+      border-radius: 6px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: white;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .pq-btn:hover { background: var(--teal); color: var(--navy); }
+    .pq-btn.teal {
+      background: var(--teal);
+      color: var(--navy);
+    }
+    .pq-btn.teal:hover { background: var(--teal-dark); color: white; }
+
+    /* ═══════════════════════════════════
+       FONCTIONNEMENT
+    ═══════════════════════════════════ */
+    .fonctionnement {
+      background: var(--navy);
+      padding: 80px 56px;
+      position: relative;
+      overflow: hidden;
+    }
+    .fonctionnement::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 80% at 100% 50%, rgba(0,197,160,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .fonctionnement .section-title { color: white; }
+    .fonctionnement .section-label { color: var(--teal); }
+    .fonctionnement .section-body { color: rgba(255,255,255,0.5); }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+      max-width: 1100px;
+      margin: 48px auto 0;
+      position: relative;
+      z-index: 1;
+    }
+    .step {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      padding: 32px 28px;
+      border-radius: 8px;
+    }
+    .step-n {
+      font-family: 'Playfair Display', serif;
+      font-size: 48px;
+      font-weight: 700;
+      color: rgba(0,197,160,0.2);
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+    .step h4 {
+      font-size: 15px;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 10px;
+    }
+    .step p {
+      font-size: 13px;
+      color: rgba(255,255,255,0.4);
+      line-height: 1.65;
+    }
+
+    /* ═══════════════════════════════════
+       INSTRUMENTS
+    ═══════════════════════════════════ */
+    .instruments {
+      background: var(--white);
+      padding: 80px 56px;
+    }
+    .inst-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      max-width: 1100px;
+      margin: 48px auto 0;
+    }
+    .inst-card {
+      border: 1px solid #E8EDF2;
+      border-radius: 12px;
+      padding: 32px 28px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .inst-card:hover {
+      border-color: var(--teal);
+      box-shadow: 0 8px 32px rgba(0,197,160,0.08);
+    }
+    .inst-tag {
+      display: inline-block;
+      background: rgba(0,197,160,0.08);
+      color: var(--teal);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 100px;
+      margin-bottom: 16px;
+    }
+    .inst-card h4 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+    .inst-card p {
+      font-size: 13.5px;
+      color: #5A6A7E;
+      line-height: 1.65;
+    }
+    .inst-range {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid #F0F4F8;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--navy);
+    }
+    .inst-range span { color: var(--text-muted); font-weight: 400; }
+
+    /* ═══════════════════════════════════
+       SHARIAH + RÉGULATION
+    ═══════════════════════════════════ */
+    .trust-section {
+      background: var(--off-white);
+      padding: 80px 56px;
+    }
+    .trust-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .trust-block {
+      background: var(--white);
+      border: 1px solid #E8EDF2;
+      border-radius: 16px;
+      padding: 40px;
+    }
+    .trust-block h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+    .trust-block .sub {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 28px;
+    }
+    .trust-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .trust-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 14px;
+      color: #4A5568;
+      line-height: 1.5;
+    }
+    .trust-item::before {
+      content: '';
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--teal);
+      flex-shrink: 0;
+      margin-top: 2px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6l3 3 5-5' stroke='%230B1628' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-size: 12px;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    .reg-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .reg-item {
+      background: var(--off-white);
+      border-radius: 8px;
+      padding: 16px 18px;
+    }
+    .reg-item-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+    .reg-item-val {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--navy);
+    }
+    .reg-badge {
+      display: inline-block;
+      margin-top: 6px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 100px;
+    }
+    .reg-badge.green { background: rgba(0,197,160,0.1); color: var(--teal); }
+    .reg-badge.orange { background: rgba(255,165,0,0.1); color: #D97706; }
+
+    /* ═══════════════════════════════════
+       TESTIMONIALS
+    ═══════════════════════════════════ */
+    .testimonials {
+      background: var(--navy);
+      padding: 80px 56px;
+    }
+    .testimonials .section-title { color: white; text-align: center; }
+    .testimonials .section-label { text-align: center; }
+    .testi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      max-width: 1100px;
+      margin: 48px auto 0;
+    }
+    .testi {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 32px;
+    }
+    .testi p {
+      font-size: 14.5px;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.75;
+      font-style: italic;
+      margin-bottom: 20px;
+    }
+    .testi-author {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--teal);
+    }
+
+    /* ═══════════════════════════════════
+       CTA SECTION
+    ═══════════════════════════════════ */
+    .cta-section {
+      background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%);
+      padding: 80px 56px;
+      text-align: center;
+    }
+    .cta-section h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(30px, 4vw, 44px);
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 16px;
+    }
+    .cta-section p {
+      font-size: 17px;
+      color: rgba(11,22,40,0.65);
+      max-width: 500px;
+      margin: 0 auto 40px;
+    }
+    .cta-btns {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-cta-white {
+      padding: 16px 36px;
+      background: var(--navy);
+      border: 2px solid var(--navy);
+      border-radius: 4px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: white;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-cta-white:hover { background: var(--navy-mid); }
+    .btn-cta-ghost {
+      padding: 16px 36px;
+      background: transparent;
+      border: 2px solid rgba(11,22,40,0.3);
+      border-radius: 4px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: var(--navy);
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-cta-ghost:hover { border-color: var(--navy); }
+
+    /* ═══════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════ */
+    .footer {
+      background: #070F1C;
+      padding: 60px 56px 32px;
+      color: rgba(255,255,255,0.45);
+    }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 48px;
+    }
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      text-decoration: none;
+    }
+    .footer-logo img {
+      height: 24px;
+      
+    }
+    .footer-logo-sub {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+    }
+    .footer-desc {
+      font-size: 13px;
+      line-height: 1.7;
+    }
+    .footer-col h5 {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 16px;
+    }
+    .footer-col a {
+      display: block;
+      font-size: 13px;
+      color: rgba(255,255,255,0.4);
+      text-decoration: none;
+      margin-bottom: 10px;
+      transition: color 0.2s;
+    }
+    .footer-col a:hover { color: var(--teal); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+    }
+
+    /* ═══════════════════════════════════
+       MODAL
+    ═══════════════════════════════════ */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(7,15,28,0.85);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      backdrop-filter: blur(4px);
+    }
+    .modal-overlay.open {
+      display: flex;
+    }
+    .modal {
+      background: var(--white);
+      border-radius: 16px;
+      width: 100%;
+      max-width: 560px;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      animation: modal-in 0.25s ease;
+    }
+    @keyframes modal-in {
+      from { opacity: 0; transform: scale(0.96) translateY(8px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .modal-head {
+      padding: 32px 32px 24px;
+      border-bottom: 1px solid #EEF1F5;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .modal-head-badge {
+      display: inline-block;
+      background: rgba(0,197,160,0.08);
+      color: var(--teal);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 100px;
+      margin-bottom: 10px;
+    }
+    .modal-head h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+    .modal-close {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid #E2E8F0;
+      background: transparent;
+      cursor: pointer;
+      font-size: 18px;
+      color: #8899AA;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+    .modal-close:hover { background: #F7F8FA; color: var(--navy); }
+
+    .modal-body {
+      padding: 28px 32px 32px;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+    .form-group label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: 0.3px;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      padding: 11px 14px;
+      border: 1.5px solid #E2E8F0;
+      border-radius: 6px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 14px;
+      color: var(--navy);
+      background: var(--white);
+      transition: border-color 0.15s;
+      outline: none;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--teal);
+    }
+    .form-group textarea { resize: vertical; min-height: 90px; }
+    .form-submit {
+      width: 100%;
+      padding: 15px;
+      background: var(--teal);
+      border: none;
+      border-radius: 6px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--navy);
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 8px;
+    }
+    .form-submit:hover { background: var(--teal-dark); color: white; }
+    .form-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+    .form-rgpd {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-top: 14px;
+      margin-bottom: 6px;
+      font-size: 12px;
+      color: #6B7A8D;
+      line-height: 1.5;
+    }
+    .form-rgpd input { margin-top: 2px; accent-color: var(--teal); }
+
+    .modal-success {
+      display: none;
+      text-align: center;
+      padding: 48px 32px;
+    }
+    .modal-success.show { display: block; }
+    .modal-success-icon {
+      width: 64px;
+      height: 64px;
+      background: rgba(0,197,160,0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      margin: 0 auto 20px;
+    }
+    .modal-success h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+    .modal-success p {
+      font-size: 14px;
+      color: #6B7A8D;
+      line-height: 1.65;
+    }
+
+    /* ═══════════════════════════════════
+       RESPONSIVE
+    ═══════════════════════════════════ */
+    /* ═══════════════════════════════════
+       HAMBURGER BUTTON
+    ═══════════════════════════════════ */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 6px;
+      z-index: 300;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: white;
+      border-radius: 2px;
+      transition: all 0.25s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ═══════════════════════════════════
+       MOBILE DRAWER
+    ═══════════════════════════════════ */
+    .mobile-drawer {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: var(--navy);
+      z-index: 250;
+      flex-direction: column;
+      padding: 100px 32px 48px;
+      overflow-y: auto;
+    }
+    .mobile-drawer.open { display: flex; }
+    .mobile-drawer a,
+    .mobile-drawer button {
+      font-size: 22px;
+      font-weight: 700;
+      color: white;
+      text-decoration: none;
+      padding: 16px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      background: none;
+      border-left: none;
+      border-right: none;
+      border-top: none;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      text-align: left;
+      cursor: pointer;
+      letter-spacing: -0.3px;
+    }
+    .mobile-drawer a:last-child,
+    .mobile-drawer button:last-child { border-bottom: none; }
+    .mobile-drawer .drawer-cta {
+      margin-top: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .mobile-drawer .drawer-cta button,
+    .mobile-drawer .drawer-cta a {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 16px 24px;
+      border-radius: 6px;
+      text-align: center;
+      border: none;
+    }
+    .mobile-drawer .drawer-btn-primary {
+      background: var(--teal);
+      color: var(--navy);
+    }
+    .mobile-drawer .drawer-btn-outline {
+      background: transparent;
+      border: 2px solid rgba(255,255,255,0.25) !important;
+      color: white;
+    }
+
+    /* ═══════════════════════════════════
+       TABLET (≤1024px)
+    ═══════════════════════════════════ */
+    @media (max-width: 1024px) {
+      .navbar { padding: 0 24px; }
+      .nav-menu { display: none; }
+      .nav-right { display: none; }
+      .hamburger { display: flex; }
+
+      .banner { font-size: 10px; letter-spacing: 1px; padding: 9px 16px; gap: 12px; }
+
+      .hero { padding: 64px 24px 56px; }
+      .hero-btns { flex-direction: column; align-items: center; }
+      .hero-btns .btn-primary,
+      .hero-btns .btn-outline { width: 100%; max-width: 320px; }
+
+      .about-strip, .pour-qui, .fonctionnement, .instruments,
+      .trust-section, .testimonials, .cta-section { padding: 64px 24px; }
+      .footer { padding: 48px 24px 28px; }
+
+      .about-inner { grid-template-columns: 1fr; gap: 40px; }
+      .about-right { grid-template-columns: 1fr 1fr; }
+
+      .pq-grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
+      .inst-grid { grid-template-columns: 1fr; max-width: 480px; margin: 48px auto 0; }
+      .testi-grid { grid-template-columns: 1fr; max-width: 480px; margin: 48px auto 0; }
+      .steps { grid-template-columns: 1fr 1fr; gap: 12px; max-width: 480px; }
+      .trust-grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 32px; }
+
+      .cta-btns { flex-direction: column; align-items: center; }
+      .btn-cta-white, .btn-cta-ghost { width: 100%; max-width: 320px; }
+    }
+
+    /* ═══════════════════════════════════
+       MOBILE (≤480px)
+    ═══════════════════════════════════ */
+    @media (max-width: 480px) {
+      .banner { display: none; }
+
+      .navbar { height: 64px; padding: 0 20px; }
+      .logo img { height: 26px; }
+      .logo-sub { font-size: 10px; }
+
+      .hero { padding: 48px 20px 44px; }
+      .hero h1 { font-size: 36px; }
+      .hero-desc { font-size: 15px; }
+      .hero-badge { font-size: 10px; letter-spacing: 1.5px; }
+
+      .hero-stats {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        border-top: 1px solid var(--border);
+        padding-top: 32px;
+        gap: 0;
+      }
+      .h-stat {
+        border-right: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+        padding: 20px 16px;
+        max-width: none;
+      }
+      .h-stat:nth-child(2) { border-right: none; }
+      .h-stat:nth-child(3) { border-bottom: none; }
+      .h-stat:nth-child(4) { border-right: none; border-bottom: none; }
+      .h-stat-n { font-size: 28px; }
+
+      .about-strip, .pour-qui, .fonctionnement, .instruments,
+      .trust-section, .testimonials, .cta-section { padding: 48px 20px; }
+      .footer { padding: 40px 20px 24px; }
+
+      .section-title { font-size: 26px; }
+
+      .about-right { grid-template-columns: 1fr; }
+      .about-card:first-child { grid-column: auto; }
+
+      .pq-card { padding: 28px 20px; }
+      .pq-pct { font-size: 40px; }
+
+      .steps { grid-template-columns: 1fr; gap: 10px; }
+      .step { padding: 24px 20px; }
+      .step-n { font-size: 36px; }
+
+      .trust-block { padding: 28px 20px; }
+      .reg-grid { grid-template-columns: 1fr; }
+
+      .footer-top { grid-template-columns: 1fr; gap: 28px; }
+      .footer-bottom { flex-direction: column; gap: 10px; text-align: center; font-size: 11px; }
+
+      .form-row { grid-template-columns: 1fr; }
+      .modal { border-radius: 12px 12px 0 0; max-height: 92vh; margin-top: auto; }
+      .modal-overlay { align-items: flex-end; padding: 0; }
+    }
+  </style>
+
+</head>
+<body>
+
+  <!-- BANNER -->
+
+  <div class="banner">
+    <span>&#9203;</span>
+    Agrément PSFP en cours &middot; AMF &middot; Règlement UE 2020/1503 &middot; Lancement prévu S2 2026
+    <a href="#regulatory">En savoir plus</a>
+  </div>
+
+  <!-- NAVBAR -->
+
+  <nav class="navbar">
+    <a href="/" class="logo">
+      <img src="data:image/png;base64,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" alt="Lina"/>
+      <div class="logo-divider"></div>
+      <span class="logo-sub">Capital</span>
+    </a>
+    <ul class="nav-menu">
+      <li><a href="#about">Plateforme</a></li>
+      <li><a href="#forwhom">Secteurs</a></li>
+      <li><a href="#instruments">Instruments</a></li>
+      <li><a href="#trust">Conformité</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="https://lina.finance" class="btn-nav-ghost" target="_blank">Lina Finance</a>
+      <button onclick="openModal('modal-investisseur')" class="btn-nav-ghost">S'enregistrer</button>
+      <button onclick="openModal('modal-projet')" class="btn-nav-primary">Déposer un projet</button>
+    </div>
+    <button class="hamburger" id="hamburger" onclick="toggleDrawer()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- MOBILE DRAWER -->
+
+  <div class="mobile-drawer" id="mobile-drawer">
+    <a href="#about" onclick="closeDrawer()">Plateforme</a>
+    <a href="#forwhom" onclick="closeDrawer()">Secteurs</a>
+    <a href="#instruments" onclick="closeDrawer()">Instruments</a>
+    <a href="#trust" onclick="closeDrawer()">Conformité</a>
+    <a href="https://lina.finance" target="_blank" onclick="closeDrawer()">Lina Finance ↗</a>
+    <div class="drawer-cta">
+      <button class="drawer-btn-primary" onclick="closeDrawer();openModal('modal-projet')">Déposer un projet</button>
+      <button class="drawer-btn-outline" onclick="closeDrawer();openModal('modal-investisseur')">S'enregistrer comme investisseur</button>
+    </div>
+  </div>
+
+  <!-- HERO -->
+
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-badge">Financement participatif islamique &middot; PSFP</div>
+      <h1>Le financement<br/><em>participatif halal,</em><br/>enfin régulé.</h1>
+      <p class="hero-desc">
+        Lina Capital connecte porteurs de projets et investisseurs dans un cadre
+        conforme à l'éthique islamique, sous agrément AMF.
+      </p>
+      <div class="hero-btns">
+        <button onclick="openModal('modal-projet')" class="btn-primary">Déposer un projet</button>
+        <button onclick="openModal('modal-investisseur')" class="btn-outline">S'enregistrer comme investisseur</button>
+      </div>
+      <div class="hero-stats">
+        <div class="h-stat">
+          <div class="h-stat-n">5M€</div>
+          <div class="h-stat-l">Ticket max par projet</div>
+        </div>
+        <div class="h-stat">
+          <div class="h-stat-n">0%</div>
+          <div class="h-stat-l">Riba &middot; Sans intérêt</div>
+        </div>
+        <div class="h-stat">
+          <div class="h-stat-n">S2</div>
+          <div class="h-stat-l">Lancement 2026</div>
+        </div>
+        <div class="h-stat">
+          <div class="h-stat-n">EU</div>
+          <div class="h-stat-l">Passeport européen</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+
+  <section class="about-strip" id="about">
+    <div class="about-inner">
+      <div>
+        <div class="section-label">La plateforme</div>
+        <h2 class="section-title">Une finance éthique<br/>au service de l'économie réelle</h2>
+        <p class="section-body">
+          Lina Capital est la première plateforme PSFP de financement participatif
+          islamique en France, filiale à 100% de Lina Corp. Chaque opération est
+          structurée pour éliminer le riba et respecter les principes fondamentaux
+          de la Charia.
+        </p>
+        <div class="about-badges">
+          <div class="about-badge"><span>✓</span> Sans riba</div>
+          <div class="about-badge"><span>✓</span> Adossé à des actifs réels</div>
+          <div class="about-badge"><span>✓</span> Validé Shariah Board</div>
+          <div class="about-badge"><span>✓</span> Agrément AMF en cours</div>
+        </div>
+      </div>
+      <div class="about-right">
+        <div class="about-card">
+          <div class="about-card-icon">🏛️</div>
+          <h4>Filiale de Lina Corp</h4>
+          <p>Adossée à plus de 10 000 clients et 7 ans d'expertise en finance islamique en France.</p>
+        </div>
+        <div class="about-card">
+          <div class="about-card-icon">📋</div>
+          <h4>Agrément PSFP</h4>
+          <p>Dossier déposé auprès de l'AMF sous le Règlement UE 2020/1503.</p>
+        </div>
+        <div class="about-card">
+          <div class="about-card-icon">🔒</div>
+          <h4>Protection investisseurs</h4>
+          <p>KIIS standardisées, ségrégation des fonds, droit de rétractation 4 jours.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- POUR QUI -->
+
+  <section class="pour-qui" id="forwhom">
+    <div class="section-header">
+      <div class="section-label">Secteurs cibles</div>
+      <h2 class="section-title">Qui peut déposer un projet ?</h2>
+    </div>
+    <div class="pq-grid">
+      <div class="pq-card">
+        <div class="pq-pct">40%</div>
+        <div class="pq-label">du portefeuille</div>
+        <h3>Médecins &amp; Professions libérales</h3>
+        <p>Financement de matériel médical, travaux de cabinet, création de structures et rachat de clientèle.</p>
+        <div class="pq-meta">
+          <div class="pq-meta-row"><span class="pq-meta-key">Montant</span><span class="pq-meta-val">50 000€ &mdash; 500 000€</span></div>
+          <div class="pq-meta-row"><span class="pq-meta-key">Durée</span><span class="pq-meta-val">12 &mdash; 60 mois</span></div>
+          <div class="pq-meta-row"><span class="pq-meta-key">Instrument</span><span class="pq-meta-val">Mourabaha</span></div>
+        </div>
+        <button onclick="openModal('modal-projet')" class="pq-btn">Déposer mon dossier</button>
+      </div>
+      <div class="pq-card">
+        <div class="pq-pct">40%</div>
+        <div class="pq-label">du portefeuille</div>
+        <h3>Startups Tech &amp; Innovation</h3>
+        <p>Seed et amorçage pour startups dont le modèle est compatible avec les principes Sharia.</p>
+        <div class="pq-meta">
+          <div class="pq-meta-row"><span class="pq-meta-key">Montant</span><span class="pq-meta-val">100 000€ &mdash; 1 M€</span></div>
+          <div class="pq-meta-row"><span class="pq-meta-key">Durée</span><span class="pq-meta-val">24 &mdash; 60 mois</span></div>
+          <div class="pq-meta-row"><span class="pq-meta-key">Instrument</span><span class="pq-meta-val">Moucharaka</span></div>
+        </div>
+        <button onclick="openModal('modal-projet')" class="pq-btn teal">Déposer mon dossier</button>
+      </div>
+      <div class="pq-card">
+        <div class="pq-pct">20%</div>
+        <div class="pq-label">du portefeuille</div>
+        <h3>Reprise d'Entreprises</h3>
+        <p>LBO éthique et transmission de PME/TPE, sans recours au crédit conventionnel.</p>
+        <div class="pq-meta">
+          <div class="pq-meta-row"><span class="pq-meta-key">Montant</span><span class="pq-meta-val">500 000€ &mdash; 5 M€</span></div>
+          <div class="pq-meta-row"><span class="pq-meta-key">Durée</span><span class="pq-meta-val">36 &mdash; 84 mois</span></div>
+          <div class="pq-meta-row"><span class="pq-meta-key">Instrument</span><span class="pq-meta-val">Moucharaka / Mourabaha</span></div>
+        </div>
+        <button onclick="openModal('modal-projet')" class="pq-btn">Déposer mon dossier</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FONCTIONNEMENT -->
+
+  <section class="fonctionnement">
+    <div style="max-width:1100px;margin:0 auto;position:relative;z-index:1;">
+      <div class="section-label">Comment ça marche</div>
+      <h2 class="section-title">4 étapes simples</h2>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="step-n">01</div><h4>Déposez votre projet</h4><p>Remplissez le formulaire en ligne et soumettez votre dossier à notre équipe.</p></div>
+      <div class="step"><div class="step-n">02</div><h4>Analyse &amp; structuration</h4><p>Notre équipe analyse votre dossier, structure l'opération et valide la conformité Charia.</p></div>
+      <div class="step"><div class="step-n">03</div><h4>Publication &amp; collecte</h4><p>Votre projet est publié sur la plateforme et ouvert aux investisseurs Lina.</p></div>
+      <div class="step"><div class="step-n">04</div><h4>Financement &amp; suivi</h4><p>Fonds débloqués à l'atteinte de l'objectif, avec reporting régulier aux investisseurs.</p></div>
+    </div>
+  </section>
+
+  <!-- INSTRUMENTS -->
+
+  <section class="instruments" id="instruments">
+    <div style="max-width:1100px;margin:0 auto;">
+      <div class="section-label">Instruments financiers</div>
+      <h2 class="section-title">Conformes à la Charia, adossés à des actifs réels</h2>
+    </div>
+    <div class="inst-grid">
+      <div class="inst-card">
+        <div class="inst-tag">Financement</div>
+        <h4>Mourabaha</h4>
+        <p>Achat et revente avec marge bénéficiaire fixée à l'avance. La propriété de l'actif transite par la plateforme avant cession à l'emprunteur.</p>
+        <div class="inst-range">50 000€ &mdash; 2 M€ &middot; <span>12 à 84 mois</span></div>
+      </div>
+      <div class="inst-card">
+        <div class="inst-tag">Participation</div>
+        <h4>Moucharaka</h4>
+        <p>Association capitalistique entre investisseurs et porteur de projet, avec partage des profits et pertes selon les parts convenues.</p>
+        <div class="inst-range">100 000€ &mdash; 5 M€ &middot; <span>24 à 84 mois</span></div>
+      </div>
+      <div class="inst-card">
+        <div class="inst-tag">Gestion déléguée</div>
+        <h4>Moudharaba</h4>
+        <p>Financement d'un projet opérationnel : l'investisseur apporte le capital, l'entrepreneur apporte le travail et l'expertise.</p>
+        <div class="inst-range">50 000€ &mdash; 1 M€ &middot; <span>12 à 48 mois</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST / CONFORMITÉ -->
+
+  <section class="trust-section" id="trust">
+    <div class="section-header">
+      <div class="section-label">Conformité &amp; Réglementation</div>
+      <h2 class="section-title">Doublement certifié :<br/>Charia &amp; AMF</h2>
+    </div>
+    <div class="trust-grid">
+      <div class="trust-block">
+        <h3>Shariah Board Lina</h3>
+        <p class="sub">Comité de conformité islamique indépendant · Lina Corp</p>
+        <div class="trust-list">
+          <div class="trust-item">Zéro riba — aucun intérêt dans aucun produit</div>
+          <div class="trust-item">Adossement obligatoire à des actifs réels</div>
+          <div class="trust-item">Exclusion des secteurs haram (alcool, tabac, armement…)</div>
+          <div class="trust-item">Validation de chaque structuration par le Shariah Board</div>
+          <div class="trust-item">Rapport de conformité publié pour chaque opération</div>
+        </div>
+      </div>
+      <div class="trust-block" id="regulatory">
+        <h3>Cadre réglementaire AMF</h3>
+        <p class="sub">Agrément PSFP · Règlement UE 2020/1503</p>
+        <div class="reg-grid">
+          <div class="reg-item">
+            <div class="reg-item-label">Agrément AMF</div>
+            <div class="reg-item-val">Dossier PSFP soumis</div>
+            <span class="reg-badge orange">En cours d'obtention</span>
+          </div>
+          <div class="reg-item">
+            <div class="reg-item-label">Passeport UE</div>
+            <div class="reg-item-val">27 États membres</div>
+            <span class="reg-badge green">EU 2020/1503</span>
+          </div>
+          <div class="reg-item">
+            <div class="reg-item-label">Fonds propres</div>
+            <div class="reg-item-val">75 000€ minimum</div>
+            <span class="reg-badge green">Capitalisée</span>
+          </div>
+          <div class="reg-item">
+            <div class="reg-item-label">Protection</div>
+            <div class="reg-item-val">Ségrégation des fonds</div>
+            <span class="reg-badge green">KIIS standardisées</span>
+          </div>
+          <div class="reg-item">
+            <div class="reg-item-label">Groupe</div>
+            <div class="reg-item-val">Filiale Lina Corp</div>
+            <span class="reg-badge green">10 000+ clients</span>
+          </div>
+          <div class="reg-item">
+            <div class="reg-item-label">Lancement</div>
+            <div class="reg-item-val">Prévu S2 2026</div>
+            <span class="reg-badge orange">Pré-inscription</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TÉMOIGNAGES -->
+
+  <section class="testimonials">
+    <div class="section-label" style="text-align:center;">Ils nous font confiance</div>
+    <h2 class="section-title" style="text-align:center;max-width:500px;margin:0 auto 48px;">Ce que dit la communauté Lina</h2>
+    <div class="testi-grid" style="max-width:1100px;margin:0 auto;">
+      <div class="testi">
+        <p>"Actuellement le meilleur projet de finance islamique sur le marché français, avec une équipe consciencieuse et professionnelle."</p>
+        <div class="testi-author">Ben Samba F. · Client Lina Finance</div>
+      </div>
+      <div class="testi">
+        <p>"Enfin une plateforme qui traite la finance islamique avec le sérieux qu'elle mérite, avec un vrai agrément régulateur à la clé."</p>
+        <div class="testi-author">Rachid M. · Investisseur pré-inscrit</div>
+      </div>
+      <div class="testi">
+        <p>"La transparence sur la structure Mourabaha et la validation Shariah Board m'ont convaincu de déposer mon dossier dès l'ouverture."</p>
+        <div class="testi-author">Karim T. · Médecin généraliste</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+
+  <section class="cta-section">
+    <h2>Prêt à rejoindre la plateforme ?</h2>
+    <p>La plateforme ouvre S2 2026. Enregistrez-vous maintenant pour être notifié en priorité.</p>
+    <div class="cta-btns">
+      <button onclick="openModal('modal-projet')" class="btn-cta-white">Déposer un projet</button>
+      <button onclick="openModal('modal-investisseur')" class="btn-cta-ghost">S'enregistrer comme investisseur</button>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+
+  <footer class="footer">
+    <div class="footer-top">
+      <div>
+        <a href="/" class="footer-logo">
+          <img src="data:image/png;base64,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" alt="Lina"/>
+          <span class="footer-logo-sub">Capital</span>
+        </a>
+        <p class="footer-desc">Plateforme PSFP de financement participatif islamique. Filiale à 100% de Lina Corp. Agrément AMF en cours d'obtention.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Plateforme</h5>
+        <a href="#about">La plateforme</a>
+        <a href="#forwhom">Secteurs cibles</a>
+        <a href="#instruments">Instruments</a>
+        <a href="#trust">Conformité</a>
+      </div>
+      <div class="footer-col">
+        <h5>Groupe Lina</h5>
+        <a href="https://lina.finance" target="_blank">Lina Finance</a>
+        <a href="https://lina.finance/shariah-board/" target="_blank">Shariah Board</a>
+        <a href="https://lina.finance/blog/" target="_blank">Blog</a>
+      </div>
+      <div class="footer-col">
+        <h5>Contact</h5>
+        <a href="mailto:contact@lina.finance">contact@lina.finance</a>
+        <a href="https://lina.finance/rendez-vous-conseiller/" target="_blank">Prendre RDV</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Lina Capital SAS &middot; Filiale Lina Corp &middot; Agrément PSFP en cours</span>
+      <span>Règlement UE 2020/1503 &middot; Finance islamique conforme Charia</span>
+    </div>
+  </footer>
+
+  <!-- MODAL : DÉPOSER UN PROJET -->
+
+  <div class="modal-overlay" id="modal-projet">
+    <div class="modal">
+      <div class="modal-head">
+        <div>
+          <div class="modal-head-badge">Porteur de projet</div>
+          <h2>Déposer un projet</h2>
+        </div>
+        <button class="modal-close" onclick="closeModal('modal-projet')">&#x2715;</button>
+      </div>
+      <div class="modal-body" id="form-projet-wrap">
+        <form id="form-projet" name="depot-projet" method="POST" data-netlify="true" enctype="multipart/form-data">
+          <input type="hidden" name="form-name" value="depot-projet"/>
+          <p style="display:none;"><input name="bot-field"/></p>
+          <div class="form-row">
+            <div class="form-group"><label>Prénom *</label><input type="text" name="prenom" required/></div>
+            <div class="form-group"><label>Nom *</label><input type="text" name="nom" required/></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Email *</label><input type="email" name="email" required/></div>
+            <div class="form-group"><label>Téléphone</label><input type="tel" name="telephone"/></div>
+          </div>
+          <div class="form-group"><label>Nom du projet *</label><input type="text" name="nom_projet" required/></div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Secteur *</label>
+              <select name="secteur" required>
+                <option value="">Sélectionner...</option>
+                <option value="medecins">Médecins &amp; Professions libérales</option>
+                <option value="startups">Startups Tech &amp; Innovation</option>
+                <option value="reprise">Reprise d'entreprise</option>
+                <option value="immobilier">Immobilier</option>
+                <option value="autre">Autre</option>
+              </select>
+            </div>
+            <div class="form-group"><label>Montant recherché *</label><input type="text" name="montant" placeholder="ex: 250 000 €" required/></div>
+          </div>
+          <div class="form-group"><label>Description du projet *</label><textarea name="description" placeholder="Décrivez votre projet en quelques lignes..." required></textarea></div>
+          <div class="form-group"><label>Document (PDF, Word, PPT — max 10 Mo)</label><input type="file" name="document" accept=".pdf,.doc,.docx,.ppt,.pptx"/></div>
+          <div class="form-rgpd">
+            <input type="checkbox" name="rgpd" required/>
+            <span>J'accepte que mes données soient utilisées pour le traitement de ma demande, conformément à la politique de confidentialité de Lina Capital.</span>
+          </div>
+          <button type="submit" class="form-submit" id="btn-submit-projet">Envoyer mon dossier</button>
+        </form>
+        <div class="modal-success" id="success-projet">
+          <div class="modal-success-icon">&#10003;</div>
+          <h3>Dossier reçu !</h3>
+          <p>Notre équipe analysera votre dossier et vous recontactera sous 5 jours ouvrés. Jazak'Allah khayran.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL : S'ENREGISTRER INVESTISSEUR -->
+
+  <div class="modal-overlay" id="modal-investisseur">
+    <div class="modal">
+      <div class="modal-head">
+        <div>
+          <div class="modal-head-badge">Investisseur</div>
+          <h2>S'enregistrer comme investisseur</h2>
+        </div>
+        <button class="modal-close" onclick="closeModal('modal-investisseur')">&#x2715;</button>
+      </div>
+      <div class="modal-body" id="form-inv-wrap">
+        <form id="form-inv" name="inscription-investisseur" method="POST" data-netlify="true">
+          <input type="hidden" name="form-name" value="inscription-investisseur"/>
+          <p style="display:none;"><input name="bot-field"/></p>
+          <div class="form-row">
+            <div class="form-group"><label>Prénom *</label><input type="text" name="prenom" required/></div>
+            <div class="form-group"><label>Nom *</label><input type="text" name="nom" required/></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Email *</label><input type="email" name="email" required/></div>
+            <div class="form-group"><label>Téléphone</label><input type="tel" name="telephone"/></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Profil investisseur *</label>
+              <select name="profil" required>
+                <option value="">Sélectionner...</option>
+                <option value="particulier">Particulier</option>
+                <option value="professionnel">Professionnel averti</option>
+                <option value="family-office">Family Office</option>
+                <option value="institutionnel">Institutionnel</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Montant envisagé *</label>
+              <select name="montant_envisage" required>
+                <option value="">Sélectionner...</option>
+                <option value="1k-5k">1 000€ &mdash; 5 000€</option>
+                <option value="5k-20k">5 000€ &mdash; 20 000€</option>
+                <option value="20k-50k">20 000€ &mdash; 50 000€</option>
+                <option value="50k+">50 000€ et plus</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group"><label>Message (optionnel)</label><textarea name="message" placeholder="Vos questions, attentes..."></textarea></div>
+          <div class="form-rgpd">
+            <input type="checkbox" name="rgpd" required/>
+            <span>J'accepte que mes données soient utilisées pour la gestion de mon inscription, conformément à la politique de confidentialité de Lina Capital.</span>
+          </div>
+          <button type="submit" class="form-submit" id="btn-submit-inv">Confirmer mon inscription</button>
+        </form>
+        <div class="modal-success" id="success-inv">
+          <div class="modal-success-icon">&#10003;</div>
+          <h3>Inscription confirmée !</h3>
+          <p>Vous serez contacté en priorité dès l'ouverture de la plateforme S2 2026. Jazak'Allah khayran.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ── DRAWER ──
+    function toggleDrawer() {
+      var drawer = document.getElementById('mobile-drawer');
+      var burger = document.getElementById('hamburger');
+      var isOpen = drawer.classList.toggle('open');
+      burger.classList.toggle('open', isOpen);
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    }
+    function closeDrawer() {
+      document.getElementById('mobile-drawer').classList.remove('open');
+      document.getElementById('hamburger').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    // ── MODAL ──
+    function openModal(id) {
+      document.getElementById(id).classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.querySelectorAll('.modal-overlay').forEach(function(overlay) {
+      overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) closeModal(overlay.id);
+      });
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.modal-overlay.open').forEach(function(m) { closeModal(m.id); });
+      }
+    });
+
+    // ── FORM SUBMIT (Netlify Forms via fetch) ──
+    function handleNetlifyForm(formEl, successEl, btnEl) {
+      formEl.addEventListener('submit', function(e) {
+        e.preventDefault();
+        btnEl.disabled = true;
+        btnEl.textContent = 'Envoi en cours...';
+
+        var data = new FormData(formEl);
+
+        var urlData = new URLSearchParams();
+        for (var pair of data.entries()) {
+          if (!(pair[1] instanceof File)) urlData.append(pair[0], pair[1]);
+        }
+        fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: urlData.toString()
+        })
+        .then(function() {
+          formEl.style.display = 'none';
+          successEl.classList.add('show');
+        })
+        .catch(function(err) {
+          console.warn('Netlify form:', err);
+          formEl.style.display = 'none';
+          successEl.classList.add('show');
+        });
+      });
+    }
+
+    handleNetlifyForm(
+      document.getElementById('form-projet'),
+      document.getElementById('success-projet'),
+      document.getElementById('btn-submit-projet')
+    );
+    handleNetlifyForm(
+      document.getElementById('form-inv'),
+      document.getElementById('success-inv'),
+      document.getElementById('btn-submit-inv')
+    );
+  </script>
+
+</body>
+</html>
