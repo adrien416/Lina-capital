@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="fr">
 <head>
   <meta charset="UTF-8"/>
@@ -11,7 +10,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
 
   <!-- Netlify Forms detection (hidden) -->
-
   <form name="depot-projet" netlify netlify-honeypot="bot-field" hidden>
     <input type="text" name="prenom"/><input type="text" name="nom"/>
     <input type="email" name="email"/><input type="tel" name="telephone"/>
@@ -1223,13 +1221,439 @@
       .modal { border-radius: 12px 12px 0 0; max-height: 92vh; margin-top: auto; }
       .modal-overlay { align-items: flex-end; padding: 0; }
     }
-  </style>
 
+    /* ═══════════════════════════════════
+       NAV DROPDOWN
+    ═══════════════════════════════════ */
+    .nav-dropdown { position: relative; }
+    .nav-arrow { font-size: 10px; opacity: 0.7; }
+    .nav-dropdown-menu {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--navy-mid);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 8px;
+      min-width: 220px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .2s, transform .2s;
+      transform: translateX(-50%) translateY(-6px);
+      z-index: 300;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.4);
+    }
+    .nav-dropdown:hover .nav-dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+    }
+    .nav-dropdown-menu a {
+      display: block;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+      transition: background .15s, color .15s;
+    }
+    .nav-dropdown-menu a:hover {
+      background: rgba(0,197,160,0.12);
+      color: var(--teal);
+    }
+
+    /* ═══════════════════════════════════
+       DRAWER EXTRAS
+    ═══════════════════════════════════ */
+    .drawer-group-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 8px 0 4px;
+      margin-top: 4px;
+    }
+    .drawer-sector {
+      padding-left: 8px !important;
+      font-size: 15px !important;
+      color: rgba(255,255,255,0.65) !important;
+    }
+    .drawer-sector:hover { color: var(--teal) !important; }
+
+    /* ═══════════════════════════════════
+       PQ CARD LINK
+    ═══════════════════════════════════ */
+    .pq-link {
+      color: inherit;
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .pq-link:hover { color: var(--teal); }
+
+    /* ═══════════════════════════════════
+       SUBPAGES
+    ═══════════════════════════════════ */
+    .subpage {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      overflow-y: auto;
+      background: var(--off-white);
+      z-index: 250;
+    }
+    .subpage.active { display: block; }
+
+    .sp-nav {
+      background: var(--navy);
+      height: 64px;
+      display: flex;
+      align-items: center;
+      padding: 0 56px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      gap: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .sp-back {
+      background: none;
+      border: 1px solid rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.7);
+      border-radius: 8px;
+      padding: 6px 14px;
+      font-size: 13px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all .2s;
+      white-space: nowrap;
+    }
+    .sp-back:hover { border-color: var(--teal); color: var(--teal); }
+    .sp-nav-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.5);
+    }
+    .sp-nav-right {
+      margin-left: auto;
+      display: flex;
+      gap: 10px;
+    }
+
+    /* Sub-page hero */
+    .sp-hero {
+      background: var(--navy);
+      padding: 80px 56px 72px;
+      position: relative;
+      overflow: hidden;
+    }
+    .sp-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 700px 500px at 80% 50%, rgba(0,197,160,0.12) 0%, transparent 70%);
+    }
+    .sp-hero-content { position: relative; z-index: 1; max-width: 720px; }
+    .sp-hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0,197,160,0.15);
+      border: 1px solid rgba(0,197,160,0.3);
+      border-radius: 20px;
+      padding: 6px 16px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 24px;
+    }
+    .sp-hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 700;
+      color: white;
+      line-height: 1.15;
+      margin-bottom: 20px;
+    }
+    .sp-hero h1 em {
+      font-style: italic;
+      color: var(--teal);
+    }
+    .sp-hero p {
+      font-size: 17px;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.6;
+      margin-bottom: 36px;
+      max-width: 580px;
+    }
+    .sp-hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+    .sp-btn-primary {
+      background: var(--teal);
+      color: var(--navy);
+      border: none;
+      border-radius: 10px;
+      padding: 14px 28px;
+      font-size: 15px;
+      font-weight: 700;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .sp-btn-primary:hover { background: var(--teal-dark); transform: translateY(-1px); }
+    .sp-btn-ghost {
+      background: transparent;
+      color: rgba(255,255,255,0.75);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 10px;
+      padding: 14px 28px;
+      font-size: 15px;
+      font-weight: 600;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .sp-btn-ghost:hover { border-color: var(--teal); color: var(--teal); }
+
+    /* Sub-page stats bar */
+    .sp-stats {
+      background: var(--navy-mid);
+      padding: 28px 56px;
+      display: flex;
+      gap: 40px;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+    .sp-stat { display: flex; flex-direction: column; gap: 4px; }
+    .sp-stat-val { font-size: 22px; font-weight: 800; color: var(--teal); }
+    .sp-stat-key { font-size: 12px; color: rgba(255,255,255,0.5); letter-spacing: 0.5px; }
+
+    /* Sub-page sections */
+    .sp-section {
+      padding: 72px 56px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .sp-section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 12px;
+    }
+    .sp-section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(26px, 3.5vw, 38px);
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+    .sp-section-body {
+      font-size: 16px;
+      color: #4A5568;
+      line-height: 1.6;
+      max-width: 620px;
+      margin-bottom: 48px;
+    }
+
+    /* Feature cards grid */
+    .sp-features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+      margin-top: 8px;
+    }
+    .sp-feat {
+      background: white;
+      border: 1px solid #E2E8F0;
+      border-radius: 16px;
+      padding: 28px;
+      transition: box-shadow .2s, transform .2s;
+    }
+    .sp-feat:hover { box-shadow: 0 8px 30px rgba(0,0,0,0.08); transform: translateY(-3px); }
+    .sp-feat-icon {
+      width: 48px; height: 48px;
+      background: rgba(0,197,160,0.1);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      margin-bottom: 16px;
+    }
+    .sp-feat h4 { font-size: 16px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+    .sp-feat p { font-size: 14px; color: #64748B; line-height: 1.5; }
+
+    /* Process steps */
+    .sp-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 24px;
+    }
+    .sp-step {
+      background: var(--navy);
+      border-radius: 16px;
+      padding: 32px 28px;
+      position: relative;
+      overflow: hidden;
+    }
+    .sp-step::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 80px; height: 80px;
+      background: radial-gradient(circle, rgba(0,197,160,0.15) 0%, transparent 70%);
+    }
+    .sp-step-n {
+      font-size: 36px;
+      font-weight: 900;
+      color: rgba(0,197,160,0.2);
+      font-family: 'Playfair Display', serif;
+      margin-bottom: 12px;
+    }
+    .sp-step h4 { font-size: 15px; font-weight: 700; color: white; margin-bottom: 8px; }
+    .sp-step p { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.5; }
+
+    /* Instrument highlight */
+    .sp-instrument {
+      background: white;
+      border: 1px solid #E2E8F0;
+      border-radius: 20px;
+      padding: 40px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+    .sp-instrument-tag {
+      display: inline-block;
+      background: rgba(0,197,160,0.1);
+      color: var(--teal-dark);
+      border-radius: 8px;
+      padding: 4px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .sp-instrument h3 { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; color: var(--navy); margin-bottom: 14px; }
+    .sp-instrument p { font-size: 15px; color: #4A5568; line-height: 1.6; }
+    .sp-instrument-specs { display: flex; flex-direction: column; gap: 16px; }
+    .sp-spec-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 0;
+      border-bottom: 1px solid #F0F4F8;
+    }
+    .sp-spec-row:last-child { border-bottom: none; }
+    .sp-spec-key { font-size: 13px; color: #94A3B8; font-weight: 500; }
+    .sp-spec-val { font-size: 15px; font-weight: 700; color: var(--navy); }
+
+    /* Dark section */
+    .sp-dark {
+      background: var(--navy);
+      padding: 72px 56px;
+    }
+    .sp-dark .sp-section-title { color: white; }
+    .sp-dark .sp-section-body { color: rgba(255,255,255,0.55); max-width: 620px; }
+
+    /* FAQ */
+    .sp-faq { display: flex; flex-direction: column; gap: 12px; max-width: 760px; }
+    .sp-faq-item {
+      background: white;
+      border: 1px solid #E2E8F0;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .sp-faq-q {
+      padding: 18px 20px;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--navy);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background .15s;
+      user-select: none;
+    }
+    .sp-faq-q:hover { background: #F8FAFC; }
+    .sp-faq-q .faq-chevron { font-size: 12px; color: var(--teal); transition: transform .25s; }
+    .sp-faq-item.open .faq-chevron { transform: rotate(180deg); }
+    .sp-faq-a {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .3s ease, padding .3s;
+      font-size: 14px;
+      color: #4A5568;
+      line-height: 1.6;
+      padding: 0 20px;
+    }
+    .sp-faq-item.open .sp-faq-a { max-height: 300px; padding: 0 20px 18px; }
+
+    /* Sub-page CTA */
+    .sp-cta-section {
+      background: linear-gradient(135deg, var(--teal) 0%, #00A688 100%);
+      padding: 72px 56px;
+      text-align: center;
+    }
+    .sp-cta-section h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 16px;
+    }
+    .sp-cta-section p { font-size: 17px; color: rgba(11,22,40,0.7); margin-bottom: 36px; }
+    .sp-cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .sp-cta-btn-dark {
+      background: var(--navy);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 14px 32px;
+      font-size: 15px;
+      font-weight: 700;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .sp-cta-btn-dark:hover { background: var(--navy-mid); transform: translateY(-2px); }
+    .sp-cta-btn-outline {
+      background: transparent;
+      color: var(--navy);
+      border: 2px solid rgba(11,22,40,0.3);
+      border-radius: 10px;
+      padding: 14px 32px;
+      font-size: 15px;
+      font-weight: 600;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .sp-cta-btn-outline:hover { border-color: var(--navy); transform: translateY(-2px); }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .sp-hero, .sp-section, .sp-dark, .sp-cta-section { padding-left: 24px; padding-right: 24px; }
+      .sp-nav { padding: 0 20px; }
+      .sp-stats { padding: 20px 24px; gap: 24px; }
+      .sp-instrument { grid-template-columns: 1fr; gap: 24px; }
+    }
+
+  </style>
 </head>
 <body>
 
   <!-- BANNER -->
-
   <div class="banner">
     <span>&#9203;</span>
     Agrément PSFP en cours &middot; AMF &middot; Règlement UE 2020/1503 &middot; Lancement prévu S2 2026
@@ -1237,7 +1661,6 @@
   </div>
 
   <!-- NAVBAR -->
-
   <nav class="navbar">
     <a href="/" class="logo">
       <img src="data:image/png;base64,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" alt="Lina"/>
@@ -1245,10 +1668,17 @@
       <span class="logo-sub">Capital</span>
     </a>
     <ul class="nav-menu">
-      <li><a href="#about">Plateforme</a></li>
-      <li><a href="#forwhom">Secteurs</a></li>
-      <li><a href="#instruments">Instruments</a></li>
-      <li><a href="#trust">Conformité</a></li>
+      <li><a href="#about" onclick="showHome()">Plateforme</a></li>
+      <li class="nav-dropdown">
+        <a href="#forwhom" onclick="showHome()">Secteurs <span class="nav-arrow">▾</span></a>
+        <div class="nav-dropdown-menu">
+          <a href="#/sante" onclick="showPage('page-sante')">🩺 Professionnels de santé</a>
+          <a href="#/startup" onclick="showPage('page-startup')">🚀 Startups &amp; Innovation</a>
+          <a href="#/reprise" onclick="showPage('page-reprise')">🏢 Reprise d'entreprises</a>
+        </div>
+      </li>
+      <li><a href="#instruments" onclick="showHome()">Instruments</a></li>
+      <li><a href="#trust" onclick="showHome()">Conformité</a></li>
     </ul>
     <div class="nav-right">
       <a href="https://lina.finance" class="btn-nav-ghost" target="_blank">Lina Finance</a>
@@ -1261,12 +1691,14 @@
   </nav>
 
   <!-- MOBILE DRAWER -->
-
   <div class="mobile-drawer" id="mobile-drawer">
-    <a href="#about" onclick="closeDrawer()">Plateforme</a>
-    <a href="#forwhom" onclick="closeDrawer()">Secteurs</a>
-    <a href="#instruments" onclick="closeDrawer()">Instruments</a>
-    <a href="#trust" onclick="closeDrawer()">Conformité</a>
+    <a href="#about" onclick="closeDrawer();showHome()">Plateforme</a>
+    <div class="drawer-group-label">Secteurs</div>
+    <a href="#/sante" onclick="closeDrawer();showPage('page-sante')" class="drawer-sector">🩺 Professionnels de santé</a>
+    <a href="#/startup" onclick="closeDrawer();showPage('page-startup')" class="drawer-sector">🚀 Startups &amp; Innovation</a>
+    <a href="#/reprise" onclick="closeDrawer();showPage('page-reprise')" class="drawer-sector">🏢 Reprise d'entreprises</a>
+    <a href="#instruments" onclick="closeDrawer();showHome()">Instruments</a>
+    <a href="#trust" onclick="closeDrawer();showHome()">Conformité</a>
     <a href="https://lina.finance" target="_blank" onclick="closeDrawer()">Lina Finance ↗</a>
     <div class="drawer-cta">
       <button class="drawer-btn-primary" onclick="closeDrawer();openModal('modal-projet')">Déposer un projet</button>
@@ -1275,7 +1707,6 @@
   </div>
 
   <!-- HERO -->
-
   <section class="hero">
     <div class="hero-inner">
       <div class="hero-badge">Financement participatif islamique &middot; PSFP</div>
@@ -1310,7 +1741,6 @@
   </section>
 
   <!-- ABOUT -->
-
   <section class="about-strip" id="about">
     <div class="about-inner">
       <div>
@@ -1350,7 +1780,6 @@
   </section>
 
   <!-- POUR QUI -->
-
   <section class="pour-qui" id="forwhom">
     <div class="section-header">
       <div class="section-label">Secteurs cibles</div>
@@ -1360,7 +1789,7 @@
       <div class="pq-card">
         <div class="pq-pct">40%</div>
         <div class="pq-label">du portefeuille</div>
-        <h3>Médecins &amp; Professions libérales</h3>
+        <h3><a href="#/sante" onclick="showPage('page-sante')" class="pq-link">Médecins &amp; Professions libérales →</a></h3>
         <p>Financement de matériel médical, travaux de cabinet, création de structures et rachat de clientèle.</p>
         <div class="pq-meta">
           <div class="pq-meta-row"><span class="pq-meta-key">Montant</span><span class="pq-meta-val">50 000€ &mdash; 500 000€</span></div>
@@ -1372,7 +1801,7 @@
       <div class="pq-card">
         <div class="pq-pct">40%</div>
         <div class="pq-label">du portefeuille</div>
-        <h3>Startups Tech &amp; Innovation</h3>
+        <h3><a href="#/startup" onclick="showPage('page-startup')" class="pq-link">Startups Tech &amp; Innovation →</a></h3>
         <p>Seed et amorçage pour startups dont le modèle est compatible avec les principes Sharia.</p>
         <div class="pq-meta">
           <div class="pq-meta-row"><span class="pq-meta-key">Montant</span><span class="pq-meta-val">100 000€ &mdash; 1 M€</span></div>
@@ -1384,7 +1813,7 @@
       <div class="pq-card">
         <div class="pq-pct">20%</div>
         <div class="pq-label">du portefeuille</div>
-        <h3>Reprise d'Entreprises</h3>
+        <h3><a href="#/reprise" onclick="showPage('page-reprise')" class="pq-link">Reprise d'Entreprises →</a></h3>
         <p>LBO éthique et transmission de PME/TPE, sans recours au crédit conventionnel.</p>
         <div class="pq-meta">
           <div class="pq-meta-row"><span class="pq-meta-key">Montant</span><span class="pq-meta-val">500 000€ &mdash; 5 M€</span></div>
@@ -1397,7 +1826,6 @@
   </section>
 
   <!-- FONCTIONNEMENT -->
-
   <section class="fonctionnement">
     <div style="max-width:1100px;margin:0 auto;position:relative;z-index:1;">
       <div class="section-label">Comment ça marche</div>
@@ -1412,7 +1840,6 @@
   </section>
 
   <!-- INSTRUMENTS -->
-
   <section class="instruments" id="instruments">
     <div style="max-width:1100px;margin:0 auto;">
       <div class="section-label">Instruments financiers</div>
@@ -1441,7 +1868,6 @@
   </section>
 
   <!-- TRUST / CONFORMITÉ -->
-
   <section class="trust-section" id="trust">
     <div class="section-header">
       <div class="section-label">Conformité &amp; Réglementation</div>
@@ -1499,7 +1925,6 @@
   </section>
 
   <!-- TÉMOIGNAGES -->
-
   <section class="testimonials">
     <div class="section-label" style="text-align:center;">Ils nous font confiance</div>
     <h2 class="section-title" style="text-align:center;max-width:500px;margin:0 auto 48px;">Ce que dit la communauté Lina</h2>
@@ -1520,7 +1945,6 @@
   </section>
 
   <!-- CTA -->
-
   <section class="cta-section">
     <h2>Prêt à rejoindre la plateforme ?</h2>
     <p>La plateforme ouvre S2 2026. Enregistrez-vous maintenant pour être notifié en priorité.</p>
@@ -1531,7 +1955,6 @@
   </section>
 
   <!-- FOOTER -->
-
   <footer class="footer">
     <div class="footer-top">
       <div>
@@ -1556,7 +1979,7 @@
       </div>
       <div class="footer-col">
         <h5>Contact</h5>
-        <a href="mailto:contact@lina.finance">contact@lina.finance</a>
+        <a href="/cdn-cgi/l/email-protection#e1828e8f95808295a18d888f80cf87888f808f8284"><span class="__cf_email__" data-cfemail="beddd1d0cadfddcafed2d7d0df90d8d7d0dfd0dddb">[email&#160;protected]</span></a>
         <a href="https://lina.finance/rendez-vous-conseiller/" target="_blank">Prendre RDV</a>
       </div>
     </div>
@@ -1567,7 +1990,6 @@
   </footer>
 
   <!-- MODAL : DÉPOSER UN PROJET -->
-
   <div class="modal-overlay" id="modal-projet">
     <div class="modal">
       <div class="modal-head">
@@ -1622,7 +2044,6 @@
   </div>
 
   <!-- MODAL : S'ENREGISTRER INVESTISSEUR -->
-
   <div class="modal-overlay" id="modal-investisseur">
     <div class="modal">
       <div class="modal-head">
@@ -1682,7 +2103,7 @@
     </div>
   </div>
 
-  <script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     // ── DRAWER ──
     function toggleDrawer() {
       var drawer = document.getElementById('mobile-drawer');
@@ -1748,16 +2169,330 @@
     }
 
     handleNetlifyForm(
-      document.getElementById('form-projet'),
-      document.getElementById('success-projet'),
-      document.getElementById('btn-submit-projet')
+      cument.getElementById('btn-submit-proj')
     );
     handleNetlifyForm(
-      document.getElementById('form-inv'),
+      document.getElementById('form-investisseur'),
       document.getElementById('success-inv'),
       document.getElementById('btn-submit-inv')
     );
+
+    // ── ROUTER ──
+    function showPage(id) {
+      document.querySelectorAll('.subpage').forEach(function(p) { p.classList.remove('active'); });
+      var el = document.getElementById(id);
+      if (el) {
+        el.classList.add('active');
+        el.scrollTop = 0;
+        document.body.style.overflow = 'hidden';
+      }
+      window.location.hash = '/' + id.replace('page-', '');
+    }
+    function showHome() {
+      document.querySelectorAll('.subpage').forEach(function(p) { p.classList.remove('active'); });
+      document.body.style.overflow = '';
+      window.location.hash = '';
+      window.scrollTo(0, 0);
+    }
+    function handleRoute() {
+      var h = window.location.hash;
+      if (h === '#/sante') { showPage('page-sante'); }
+      else if (h === '#/startup') { showPage('page-startup'); }
+      else if (h === '#/reprise') { showPage('page-reprise'); }
+      else { showHome(); }
+    }
+    window.addEventListener('popstate', handleRoute);
+    handleRoute();
+
+    // ── FAQ TOGGLE ──
+    function toggleFaq(el) {
+      var item = el.parentElement;
+      item.classList.toggle('open');
+    }
+
   </script>
+
+  <!-- ═══════════════════════════════════════
+       SUBPAGE: PROFESSIONNELS DE SANTÉ
+  ═══════════════════════════════════════ -->
+  <div class="subpage" id="page-sante">
+    <nav class="sp-nav">
+      <button class="sp-back" onclick="showHome()">&#8592; Retour</button>
+      <span class="sp-nav-title">Lina Capital &middot; Professionnels de santé</span>
+      <div class="sp-nav-right">
+        <button onclick="openModal('modal-investisseur')" class="btn-nav-ghost" style="font-size:13px;padding:8px 16px;">S'enregistrer</button>
+        <button onclick="openModal('modal-projet')" class="btn-nav-primary" style="font-size:13px;padding:8px 16px;">Déposer mon dossier</button>
+      </div>
+    </nav>
+    <section class="sp-hero">
+      <div class="sp-hero-content">
+        <div class="sp-hero-badge">Professionnels de santé</div>
+        <h1>Je suis professionnel de santé et cherche à <em>financer mon activité</em></h1>
+        <p>Médecin, dentiste, pharmacien, kiné — Lina Capital structure un financement Mourabaha 100% conforme, sans intérêts, adapté à vos besoins.</p>
+        <div class="sp-hero-ctas">
+          <button class="sp-btn-primary" onclick="openModal('modal-projet')">Déposer mon dossier</button>
+          <button class="sp-btn-ghost" onclick="openModal('modal-investisseur')">En savoir plus</button>
+        </div>
+      </div>
+    </section>
+    <div class="sp-stats">
+      <div class="sp-stat"><div class="sp-stat-val">50 k&#8364; &ndash; 500 k&#8364;</div><div class="sp-stat-key">Montant finançable</div></div>
+      <div class="sp-stat"><div class="sp-stat-val">12 &ndash; 60 mois</div><div class="sp-stat-key">Durée de financement</div></div>
+      <div class="sp-stat"><div class="sp-stat-val">Mourabaha</div><div class="sp-stat-key">Instrument conforme Charia</div></div>
+      <div class="sp-stat"><div class="sp-stat-val">40%</div><div class="sp-stat-key">Du portefeuille Lina Capital</div></div>
+    </div>
+    <div class="sp-section">
+      <div class="sp-section-label">Vos besoins</div>
+      <h2 class="sp-section-title">Quels projets peuvent être financés ?</h2>
+      <p class="sp-section-body">Le secteur médical est historiquement sous-servi par les banques classiques. Lina Capital comble ce manque avec des solutions conformes.</p>
+      <div class="sp-features">
+        <div class="sp-feat"><div class="sp-feat-icon">&#127973;</div><h4>Cabinet médical</h4><p>Travaux d'aménagement, rénovation, mise aux normes ou création d'un nouveau cabinet.</p></div>
+        <div class="sp-feat"><div class="sp-feat-icon">&#128300;</div><h4>Équipement médical</h4><p>Scanner, radio numérique, fauteuil dentaire, équipement kiné, matériel chirurgical.</p></div>
+        <div class="sp-feat"><div class="sp-feat-icon">&#129309;</div><h4>Rachat de patientèle</h4><p>Acquisition d'une clientèle existante ou reprise d'un cabinet en cours d'activité.</p></div>
+        <div class="sp-feat"><div class="sp-feat-icon">&#127959;</div><h4>Création de structures</h4><p>Constitution d'une SCM, SEL ou SCP : financement des apports et frais de constitution.</p></div>
+        <div class="sp-feat"><div class="sp-feat-icon">&#128138;</div><h4>Stock &amp; fournitures</h4><p>Financement de stocks de médicaments, consommables médicaux ou fournitures dentaires.</p></div>
+        <div class="sp-feat"><div class="sp-feat-icon">&#128187;</div><h4>Logiciels &amp; digital</h4><p>Gestion de cabinet, équipements informatiques, tablettes et télémédecine.</p></div>
+      </div>
+    </div>
+    <div class="sp-dark">
+      <div style="max-width:1100px;margin:0 auto;">
+        <div class="sp-section-label">Instrument financier</div>
+        <h2 class="sp-section-title">La Mourabaha : financement sans intérêts</h2>
+        <p class="sp-section-body">La Mourabaha est le contrat le plus adapté au financement d'actifs professionnels en droit français — explicitement encadré par une instruction DGFIP de 2009.</p>
+        <div class="sp-instrument">
+          <div>
+            <div class="sp-instrument-tag">AAOIFI Standard SS 8</div>
+            <h3>Comment fonctionne la Mourabaha ?</h3>
+            <p>Lina Capital achète l'actif souhaité, en prend possession juridiquement, puis vous le revend à un prix majoré d'une marge fixe connue à l'avance. Vous remboursez par mensualités fixes — sans aucun taux d'intérêt.</p>
+          </div>
+          <div class="sp-instrument-specs">
+            <div class="sp-spec-row"><span class="sp-spec-key">Montant</span><span class="sp-spec-val">50 000&#8364; &mdash; 500 000&#8364;</span></div>
+            <div class="sp-spec-row"><span class="sp-spec-key">Durée</span><span class="sp-spec-val">12 à 60 mois</span></div>
+            <div class="sp-spec-row"><span class="sp-spec-key">Marge</span><span class="sp-spec-val">Fixe, exprimée en &#8364;</span></div>
+            <div class="sp-spec-row"><span class="sp-spec-key">Taux d'intérêt</span><span class="sp-spec-val">Zéro &mdash; conforme Charia</span></div>
+            <div class="sp-spec-row"><span class="sp-spec-key">Garantie</span><span class="sp-spec-val">Nantissement sur actif</span></div>
+            <div class="sp-spec-row"><span class="sp-spec-key">Validation</span><span class="sp-spec-val">Shariah Board AAOIFI</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sp-section">
+      <div class="sp-section-label">Comment ça marche</div>
+      <h2 class="sp-section-title">4 étapes pour financer votre projet</h2>
+      <div class="sp-steps">
+        <div class="sp-step"><div class="sp-step-n">01</div><h4>Déposez votre dossier</h4><p>Remplissez le formulaire avec la description de votre projet et vos documents professionnels.</p></div>
+        <div class="sp-step"><div class="sp-step-n">02</div><h4>Analyse &amp; validation</h4><p>Notre équipe analyse votre dossier, structure la Mourabaha et obtient la validation du Shariah Board.</p></div>
+        <div class="sp-step"><div class="sp-step-n">03</div><h4>Collecte investisseurs</h4><p>Le projet est présenté aux investisseurs Lina Capital lors d'une soirée privée ou sur la plateforme.</p></div>
+        <div class="sp-step"><div class="sp-step-n">04</div><h4>Déblocage &amp; suivi</h4><p>Les fonds sont débloqués, l'actif vous est remis. Remboursements mensuels fixes.</p></div>
+      </div>
+    </div>
+    <div class="sp-section" style="padding-top:0;">
+      <div class="sp-section-label">Questions fréquentes</div>
+      <h2 class="sp-section-title">Ce que vous vous demandez</h2>
+      <div class="sp-faq">
+        <div class="sp-faq-item"><div class="sp-faq-q" onclick="toggleFaq(this)">Puis-je financer mon cabinet dentaire ou ma pharmacie ? <span class="faq-chevron">&#9660;</span></div><div class="sp-faq-a">Oui pour les dentistes et tout professionnel de santé libéral. Pour les pharmacies en SEL, la réglementation interdit l'entrée de capitaux extérieurs au capital social — seul le financement d'actifs (stocks, équipements, agencements) est possible via Mourabaha.</div></div>
+        <div class="sp-faq-item"><div class="sp-faq-q" onclick="toggleFaq(this)">La Mourabaha est-elle reconnue par le fisc français ? <span class="faq-chevron">&#9660;</span></div><div class="sp-faq-a">Oui. Une instruction DGFIP de 2009 encadre explicitement le traitement fiscal de la Mourabaha en France, offrant une sécurité juridique supérieure à d'autres instruments. La marge est déductible comme des intérêts conventionnels.</div></div>
+        <div class="sp-faq-item"><div class="sp-faq-q" onclick="toggleFaq(this)">Dois-je être musulman pour bénéficier d'un financement ? <span class="faq-chevron">&#9660;</span></div><div class="sp-faq-a">Non. Les financements Lina Capital sont accessibles à tous les professionnels de santé, quelle que soit leur religion. L'éthique islamique s'applique aux produits, pas aux personnes.</div></div>
+        <div class="sp-faq-item"><div class="sp-faq-q" onclick="toggleFaq(this)">Quelle différence avec un prêt bancaire classique ? <span class="faq-chevron">&#9660;</span></div><div class="sp-faq-a">Dans un prêt bancaire, vous payez des intérêts (riba, interdit en Islam). Dans la Mourabaha, il n'y a pas de taux : Lina Capital vous vend l'actif avec une marge fixe définie à l'avance. Le montant total est connu dès le départ.</div></div>
+      </div>
+    </div>
+    <div class="sp-cta-section">
+      <h2>Prêt à financer votre activité médicale ?</h2>
+      <p>Déposez votre dossier en 5 minutes. Notre équipe vous répond sous 48h.</p>
+      <div class="sp-cta-btns">
+        <button class="sp-cta-btn-dark" onclick="openModal('modal-projet')">Déposer mon dossier</button>
+        <button class="sp-cta-btn-outline" onclick="openModal('modal-investisseur')">Je suis investisseur</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════
+       SUBPAGE: STARTUPS & INNOVATION
+  ═══════════════════════════════════════ -->
+  <div class="subpage" id="page-startup">
+    <nav class="sp-nav">
+      <button class="sp-back" onclick="showHome()">&#8592; Retour</button>
+      <span class="sp-nav-title">Lina Capital &middot; Startups &amp; Innovation</span>
+      <div class="sp-nav-right">
+        <button onclick="openModal('modal-investisseur')" class="btn-nav-ghost" style="font-size:13px;padding:8px 16px;">S'enregistrer</button>
+        <button onclick="openModal('modal-projet')" class="btn-nav-primary" style="font-size:13px;padding:8px 16px;">Déposer mon dossier</button>
+      </div>
+    </nav>
+    <section class="sp-hero">
+      <div class="sp-hero-content">
+        <div class="sp-hero-badge">Startups &amp; Innovation</div>
+        <h1>Je suis fondateur et cherche à <em>lever des fonds conformes</em></h1>
+        <p>Seed, amorçage ou série A — Lina Capital structure un financement Moucharaka pour startups dont le modèle respecte les principes islamiques d'éthique et d'impact.</p>
+        <div class="sp-hero-ctas">
+          <button class="sp-btn-primary" onclick="openModal('modal-projet')">Soumettre ma candidature</button>
+          <button class="sp-btn-ghost" onclick="openModal('modal-investisseur')">En savoir plus</button>
+        </div>
+      </div>
+    </section>
+    <div class="sp-stats">
+      <div class="sp-stat"><div class="sp-stat-val">100 k&#8364; &ndash; 1 M&#8364;</div><div class="sp-stat-key">Montant finançable</div></div>
+      <div class="sp-stat"><div class="sp-stat-val">24 &ndash; 60 mois</div><div class="sp-stat-key">Horizon d'investissement</div></div>
+      <div class="sp-stat"><div class="sp-stat-val">Moucharaka</div><div class="sp-stat-key">Instrument conforme Charia</div></div>
+      <div class="sp-stat"><div class="sp-stat-val">40%</div><div class="sp-stat-key">Du portefeuille Lina Capital</div></div>
+    </div>
+    <div class="sp-section">
+      <div class="sp-section-label">Critères d'éligibilité</div>
+      <h2 class="sp-section-title">Quelle startup peut rejoindre Lina Capital ?</h2>
+      <p class="sp-section-body">Lina Capital finance l'innovation éthique. Votre startup doit répondre à 3 critères fondamentaux.</p>
+      <div class="sp-features">
+        <div class="sp-feat"><div class="sp-feat-icon">&#10003;</div><h4>Modèle Halal</h4><p>Pas d'alcool, tabac, jeux de hasard, armement ou finance conventionnelle à intérêt dans votre activité.</p></div>
+        <div class="sp-feat"><div class="sp-feat-icon">&#127807;</div><h4>Impact positif</h4><p>Priorité aux startups santé, éducation, énergie propre, inclusion financière ou impact social fort.</p></div>
+        <div class="sp-feat"><div class="sp-feat-icon">&#128202;</div><h4>Traction prouvée</h4><p>MVP fonctionnel, premières revenues ou lettres d'intention clients. Potentiel de croissance réel.</p></div>
+        <div class="sp-feat"><div class="sp-feat-icon">&#129309;</div><h4>Équipe solide</h4><p>Fondateurs compétents, équipe complémentaire et engagement long terme sur le projet.</p></div>
+        <div class="sp-feat"><div class="sp-feat-icon">&#128260;</div><h4>Modèle scalable</h4><p>Marché adressable significatif, potentiel de croissance au-delà de la France.</p></div>
+        <div class="sp-feat"><div class="sp-feat-icon">&#128203;</div><h4>Transparence totale</h4><p>Engagement à fournir un reporting trimestriel et à maintenir une gouvernance exemplaire.</p></div>
+      </div>
+    </div>
+    <div class="sp-dark">
+      <div style="max-width:1100px;margin:0 auto;">
+        <div class="sp-section-label">Instrument financier</div>
+        <h2 class="sp-section-title">La Moucharaka : partenariat d'investissement</h2>
+        <p class="sp-section-body">La Moucharaka est un contrat de participation où investisseurs et fondateurs partagent profits et pertes à proportion de leurs apports.</p>
+        <div class="sp-instrument">
+          <div>
+            <div class="sp-instrument-tag">AAOIFI Standard SS 12</div>
+            <h3>Comment fonctionne la Moucharaka ?</h3>
+            <p>Les investisseurs Lina Capital apportent des fonds en échange d'une participation aux bénéfices de votre startup. Pas de taux d'intérêt : la rémunération est liée à la performance réelle. En cas de pertes, elles sont partagées proportionnellement.</p>
+          </div>
+          <div class="sp-instrument-specs">
+            <div class="sp-spec-row"><span class="sp-spec-key">Montant</span><span class="sp-spec-val">100 000&#8364; &mdash; 1 M&#8364;</span></div>
+            <div class="sp-spec-row"><span class="sp-spec-key">Durée</span><span class="sp-spec-val">24 à 60 mois</span></div>
+            <div class="sp-spec-row"><span class="sp-spec-key">Partage bénéfices</span><span class="sp-spec-val">Défini contractuellement</span></div>
+            <div class="sp-spec-row"><span class="sp-spec-key">Intérêts</span><span class="sp-spec-val">Zéro &mdash; conforme Charia</span></div>
+            <div class="sp-spec-row"><span class="sp-spec-key">Validation</span><span class="sp-spec-val">Shariah Board AAOIFI</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sp-section">
+      <div class="sp-section-label">Comment ça marche</div>
+      <h2 class="sp-section-title">Du dossier au financement</h2>
+      <div class="sp-steps">
+        <div class="sp-step"><div class="sp-step-n">01</div><h4>Candidature en ligne</h4><p>Soumettez votre pitch deck, vos KPIs et votre besoin de financement via le formulaire.</p></div>
+        <div class="sp-step"><div class="sp-step-n">02</div><h4>Due diligence</h4><p>Notre équipe analyse le business plan, valide la conformité Charia et structure le contrat Moucharaka.</p></div>
+        <div class="sp-step"><div class="sp-step-n">03</div><h4>Présentation investisseurs</h4><p>Votre startup est présentée à la communauté Lina lors d'une soirée privée ou sur la plateforme.</p></div>
+        <div class="sp-step"><div class="sp-step-n">04</div><h4>Closing &amp; onboarding</h4><p>Signature du contrat Moucharaka, déblocage des fonds et accompagnement sur toute la période.</p></div>
+      </div>
+    </div>
+    <div class="sp-section" style="padding-top:0;">
+      <div class="sp-section-label">Questions fréquentes</div>
+      <h2 class="sp-section-title">Ce que vous vous demandez</h2>
+      <div class="sp-faq">
+        <div class="sp-faq-item"><div class="sp-faq-q" onclick="toggleFaq(this)">La Moucharaka dilue-t-elle mon capital ? <span class="faq-chevron">&#9660;</span></div><div class="sp-faq-a">La structure dépend de la négociation. La Moucharaka peut prendre la forme d'une participation au capital (equity) ou d'un droit aux bénéfices sans dilution (Moucharaka dégressive). Notre équipe vous conseille sur la structure la plus adaptée.</div></div>
+        <div class="sp-faq-item"><div class="sp-faq-q" onclick="toggleFaq(this)">Ma startup B2B SaaS est-elle éligible ? <span class="faq-chevron">&#9660;</span></div><div class="sp-faq-a">Oui, à condition que l'activité soit conforme. Un SaaS de gestion RH, comptabilité ou e-commerce est éligible. Un outil dédié aux prêts à intérêt ou aux jeux de hasard ne l'est pas.</div></div>
+        <div class="sp-faq-item"><div class="sp-faq-q" onclick="toggleFaq(this)">Peut-on cumuler Lina Capital avec une levée en capital classique ? <span class="faq-chevron">&#9660;</span></div><div class="sp-faq-a">Oui. Lina Capital peut cofinancer votre startup aux côtés d'autres investisseurs. Nous n'exigeons pas l'exclusivité.</div></div>
+      </div>
+    </div>
+    <div class="sp-cta-section">
+      <h2>Votre startup mérite des investisseurs alignés.</h2>
+      <p>Une communauté d'investisseurs engagés dans l'innovation éthique vous attend.</p>
+      <div class="sp-cta-btns">
+        <button class="sp-cta-btn-dark" onclick="openModal('modal-projet')">Soumettre ma candidature</button>
+        <button class="sp-cta-btn-outline" onclick="openModal('modal-investisseur')">Je suis investisseur</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════
+       SUBPAGE: REPRISE D'ENTREPRISES
+  ═══════════════════════════════════════ -->
+  <div class="subpage" id="page-reprise">
+    <nav class="sp-nav">
+      <button class="sp-back" onclick="showHome()">&#8592; Retour</button>
+      <span class="sp-nav-title">Lina Capital &middot; Reprise d'entreprises</span>
+      <div class="sp-nav-right">
+        <button onclick="openModal('modal-investisseur')" class="btn-nav-ghost" style="font-size:13px;padding:8px 16px;">S'enregistrer</button>
+        <button onclick="openModal('modal-projet')" class="btn-nav-primary" style="font-size:13px;padding:8px 16px;">Déposer mon dossier</button>
+      </div>
+    </nav>
+    <section class="sp-hero">
+      <div class="sp-hero-content">
+        <div class="sp-hero-badge">Reprise d'entreprises</div>
+        <h1>Je reprends une entreprise avec un <em>LBO éthique conforme</em></h1>
+        <p>PME, TPE ou fonds de commerce — Lina Capital structure un financement participatif islamique pour vos opérations de reprise, sans recours au crédit conventionnel.</p>
+        <div class="sp-hero-ctas">
+          <button class="sp-btn-primary" onclick="openModal('modal-projet')">Déposer mon dossier</button>
+          <button class="sp-btn-ghost" onclick="openModal('modal-investisseur')">En savoir plus</button>
+        </div>
+      </div>
+    </section>
+    <div class="sp-stats">
+      <div class="sp-stat"><div class="sp-stat-val">500 k&#8364; &ndash; 5 M&#8364;</div><div class="sp-stat-key">Montant finançable</div></div>
+      <div class="sp-stat"><div class="sp-stat-val">36 &ndash; 84 mois</div><div class="sp-stat-key">Durée de financement</div></div>
+      <div class="sp-stat"><div class="sp-stat-val">Moucharaka / Mourabaha</div><div class="sp-stat-key">Instrument conforme Charia</div></div>
+      <div class="sp-stat"><div class="sp-stat-val">20%</div><div class="sp-stat-key">Du portefeuille Lina Capital</div></div>
+    </div>
+    <div class="sp-section">
+      <div class="sp-section-label">Types d'opérations</div>
+      <h2 class="sp-section-title">Quelles reprises sont éligibles ?</h2>
+      <p class="sp-section-body">Lina Capital accompagne les entrepreneurs dans toutes les formes d'acquisition ou de transmission, dès lors que l'activité cible est compatible avec l'éthique islamique.</p>
+      <div class="sp-features">
+        <div class="sp-feat"><div class="sp-feat-icon">&#127978;</div><h4>Fonds de commerce</h4><p>Reprise d'un fonds existant : restaurant, boutique, cabinet de service, etc.</p></div>
+        <div class="sp-feat"><div class="sp-feat-icon">&#127981;</div><h4>PME / TPE</h4><p>Acquisition de parts sociales ou d'actions d'une PME ou TPE via Moucharaka.</p></div>
+        <div class="sp-feat"><div class="sp-feat-icon">&#128295;</div><h4>Artisanat &amp; métiers</h4><p>BTP, mécanique, plomberie, électricité, restauration et autres métiers de l'artisanat.</p></div>
+        <div class="sp-feat"><div class="sp-feat-icon">&#127973;</div><h4>Professions de santé</h4><p>Rachat de cabinet médical ou paramédical (selon réglementation applicable).</p></div>
+        <div class="sp-feat"><div class="sp-feat-icon">&#128241;</div><h4>Tech &amp; digital</h4><p>Acquisition d'une startup ou d'une entreprise numérique en phase de croissance.</p></div>
+        <div class="sp-feat"><div class="sp-feat-icon">&#129309;</div><h4>Transmission familiale</h4><p>Accompagnement des transmissions intrafamiliales ou entre associés, de manière conforme.</p></div>
+      </div>
+    </div>
+    <div class="sp-dark">
+      <div style="max-width:1100px;margin:0 auto;">
+        <div class="sp-section-label">Structure financière</div>
+        <h2 class="sp-section-title">LBO éthique : comment ça fonctionne ?</h2>
+        <p class="sp-section-body">Le LBO islamique remplace l'effet de levier par intérêts par un financement participatif structuré selon les principes de partage des risques.</p>
+        <div class="sp-instrument">
+          <div>
+            <div class="sp-instrument-tag">Moucharaka / Mourabaha</div>
+            <h3>La structure du LBO conforme</h3>
+            <p>Lina Capital et ses investisseurs co-investissent à vos côtés dans l'acquisition de la cible. Les investisseurs reçoivent un droit aux bénéfices ou aux flux de remboursement issus de l'activité reprise, sans intérêts.</p>
+          </div>
+          <div class="sp-instrument-specs">
+            <div class="sp-spec-row"><span class="sp-spec-key">Montant</span><span class="sp-spec-val">500 000&#8364; &mdash; 5 M&#8364;</span></div>
+            <div class="sp-spec-row"><span class="sp-spec-key">Durée</span><span class="sp-spec-val">36 à 84 mois</span></div>
+            <div class="sp-spec-row"><span class="sp-spec-key">Apport acquéreur</span><span class="sp-spec-val">20% minimum</span></div>
+            <div class="sp-spec-row"><span class="sp-spec-key">Intérêts</span><span class="sp-spec-val">Zéro &mdash; conforme Charia</span></div>
+            <div class="sp-spec-row"><span class="sp-spec-key">Accompagnement</span><span class="sp-spec-val">Post-acquisition inclus</span></div>
+            <div class="sp-spec-row"><span class="sp-spec-key">Validation</span><span class="sp-spec-val">Shariah Board AAOIFI</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sp-section">
+      <div class="sp-section-label">Comment ça marche</div>
+      <h2 class="sp-section-title">Du projet à la reprise effective</h2>
+      <div class="sp-steps">
+        <div class="sp-step"><div class="sp-step-n">01</div><h4>Dépôt du dossier</h4><p>Présentez la cible, le prix, votre apport personnel et vos projections post-acquisition.</p></div>
+        <div class="sp-step"><div class="sp-step-n">02</div><h4>Structuration</h4><p>Notre équipe analyse la cible, structure le montage et obtient la validation du Shariah Board.</p></div>
+        <div class="sp-step"><div class="sp-step-n">03</div><h4>Collecte &amp; closing</h4><p>Les investisseurs souscrivent, signature des actes de cession et transfert de propriété.</p></div>
+        <div class="sp-step"><div class="sp-step-n">04</div><h4>Suivi post-acquisition</h4><p>Reporting trimestriel, accompagnement et sortie des investisseurs à l'échéance.</p></div>
+      </div>
+    </div>
+    <div class="sp-section" style="padding-top:0;">
+      <div class="sp-section-label">Questions fréquentes</div>
+      <h2 class="sp-section-title">Ce que vous vous demandez</h2>
+      <div class="sp-faq">
+        <div class="sp-faq-item"><div class="sp-faq-q" onclick="toggleFaq(this)">L'entreprise cible doit-elle être halal ? <span class="faq-chevron">&#9660;</span></div><div class="sp-faq-a">Oui. L'activité de l'entreprise cible doit être compatible avec les principes islamiques. Le Shariah Board valide la conformité de la cible avant tout financement.</div></div>
+        <div class="sp-faq-item"><div class="sp-faq-q" onclick="toggleFaq(this)">Puis-je financer 100% de l'acquisition ? <span class="faq-chevron">&#9660;</span></div><div class="sp-faq-a">Non. Un apport minimum de 20% du prix est requis. Ce co-investissement aligne vos intérêts avec ceux des investisseurs, conformément aux principes de partage des risques.</div></div>
+        <div class="sp-faq-item"><div class="sp-faq-q" onclick="toggleFaq(this)">Est-ce compatible avec un financement bancaire complémentaire ? <span class="faq-chevron">&#9660;</span></div><div class="sp-faq-a">Non recommandé. La combinaison avec un prêt bancaire conventionnel crée une problématique de conformité Charia. Lina Capital peut couvrir jusqu'à 80% du prix si les conditions sont remplies.</div></div>
+      </div>
+    </div>
+    <div class="sp-cta-section">
+      <h2>Votre projet de reprise mérite un financement éthique.</h2>
+      <p>Déposez votre dossier. Notre équipe vous accompagne de l'analyse à la signature.</p>
+      <div class="sp-cta-btns">
+        <button class="sp-cta-btn-dark" onclick="openModal('modal-projet')">Déposer mon dossier</button>
+        <button class="sp-cta-btn-outline" onclick="openModal('modal-investisseur')">Je suis investisseur</button>
+      </div>
+    </div>
+  </div>
+
 
 </body>
 </html>
